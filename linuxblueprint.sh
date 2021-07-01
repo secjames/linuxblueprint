@@ -52,11 +52,121 @@ if [[ `which apt` ]]; then
 
    # Write Section 1 Header
    echo "###################################" >> $myoutfile
-   echo "Section 1 Header" >> $myoutfile
+   echo "Section 1 - Installed Packages" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
 
-   #Section 1 Code
+
+   #Part 1 of Eric' Code
+   
+	echo "************************************************************" >> $myoutfile
+	echo "Installed Packages" >> $myoutfile
+	echo "************************************************************" >> $myoutfile
+	echo "Apt List" >> $myoutfile
+	echo "************************************************************" >> $myoutfile
+	apt list --installed >> $myoutfile
+	echo "************************************************************" >> $myoutfile
+	echo "Installed Packages" >> $myoutfile
+	echo "************************************************************" >> $myoutfile
+	echo "Dpkg Query" >> $myoutfile
+	echo "************************************************************" >> $myoutfile
+	dpkg-query -l | less >> $myoutfile
+	echo " " >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	echo " " >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	# Write Section Header
+    echo "###################################" >> $myoutfile
+    echo "Section 2 - Services, Cron Jobs, Open Ports" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+
+	echo "Services" >> $myoutfile
+	echo "Services Legend:" >> $myoutfile
+	echo "+: the service is running" >> $myoutfile
+	echo "-: the service is NOT running" >> $myoutfile
+	echo "?: the service state cannot be determined" >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	service --status-all >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	echo " " >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	echo "Open Ports" >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+	netstat –tuln >> $myoutfile
+	echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo " " >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Cron Jobs" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "Daily Cron Jobs" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    ls -la /etc/cron.daily >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "Weekly Cron Jobs" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    ls -la /etc/cron.weekly >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "Monthly Cron Jobs" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    ls -la /etc/cron.monthly >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+	
+    # Part 2 of Eric's Code
+	# Write Section Header
+    echo "###################################" >> $myoutfile
+    echo "Section 2 - App Armor, SELinux, Syslog/rsyslog" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+   
+    echo "!!!!!" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "AppArmor " >> $myoutfile
+    echo " " >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    aa-status >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "AppArmor Configuration" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    cat /sys/kernel/security/apparmor/profiles >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "SELinux " >> $myoutfile
+    echo " " >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "Key:" >> $myoutfile
+    echo "       Enforced: Actions contrary to the policy are blocked and the corresponding event is logged in the audit file" >> $myoutfile
+    echo "       Permissive: SeLinux software is loaded but rules are not enforced, only logging is performed" >> $myoutfile
+    echo "       Disabled: The SELinux system is disabled entirely" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "If there is no text below the commands getenforce and sestatus were run and did not find SELinux installed." >> $myoutfile
+    echo "SE Linux may be installed by running sudo apt install selinux-utils" >> $myoutfile
+    getenforce >> $myoutfile
+    echo " " >> $myoutfile 
+    sestatus >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "SELinux Configuration (if installed)" >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    cat /etc/selinux/config >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Syslog/RSyslog Configuration" >> $myoutfile 
+    echo " " >> $myoutfile  
+    echo "*************************************************************************" >> $myoutfile
+    cat /etc/rsyslog.conf >> $myoutfile
+    cat /etc/syslog.conf >> $myoutfile
+    echo "*************************************************************************" >> $myoutfile
+    echo "Section 2 Header" >> $myoutfile
+    echo "!!!!!" >> $myoutfile
+
+   # End of Eric's Code
 
    # Write Section 2 Header
    echo "###################################" >> $myoutfile
