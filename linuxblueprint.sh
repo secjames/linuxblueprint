@@ -57,7 +57,7 @@ if [[ `which apt` ]]; then
    echo " " >> $myoutfile
 
 
-   #Part 1 of Eric' Code
+   #Part 1 of Eric's Code
    
 	echo "************************************************************" >> $myoutfile
 	echo "Installed Packages" >> $myoutfile
@@ -117,7 +117,7 @@ if [[ `which apt` ]]; then
     echo " " >> $myoutfile
 	
     # Part 2 of Eric's Code
-	# Write Section Header
+	
     echo "###################################" >> $myoutfile
     echo "Section 2 - App Armor, SELinux, Syslog/rsyslog" >> $myoutfile
     echo "###################################" >> $myoutfile
