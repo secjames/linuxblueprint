@@ -31,7 +31,7 @@ Report Sections:
 20. Syslog Information
 21. Fail2Ban Information
 22. SNMP Information
-#
+
 Usage: sudo ./linuxblueprint.sh
-#
+
 Report Name: YYmmddHHMMSS-{Hostname}-Blueprint.txt
