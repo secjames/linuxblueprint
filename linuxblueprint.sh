@@ -437,7 +437,7 @@ if [[ `which apt` ]]; then
        echo "--------------------------------" >> $myoutfile
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
-       echo "Listing of nginx.conf"
+       echo "Listing of nginx.conf" >> $myoutfile
        echo "--------------------------------" >> $myoutfile
        echo "/etc/nginx/nginx.conf" >> $myoutfile
        cat /etc/nginx/nginx.conf >> $myoutfile
