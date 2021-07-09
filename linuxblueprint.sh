@@ -266,53 +266,9 @@ if [[ `which apt` ]]; then
    ls -la /etc/cron.monthly >> $myoutfile
    echo " " >> $myoutfile
 
-   # SSH Info
-   echo "###################################" >> $myoutfile
-   echo "15 - SSH Information" >> $myoutfile
-   echo "###################################" >> $myoutfile
-   echo " " >> $myoutfile
-
-   # Get SSH.config
-   echo "Getting SSH Config..."
-   echo "-----------------------------------" >> $myoutfile
-   echo "Contents of /etc/ssh/sshd_config:" >> $myoutfile
-   echo "-----------------------------------" >> $myoutfile
-   echo " " >> $myoutfile
-   cat /etc/ssh/sshd_config >> $myoutfile
-   echo " " >> $myoutfile
-
-   # Get SSH Parameters of Note
-   echo "Getting SSH Parameters of Note..."
-   echo "--------------------------------" >> $myoutfile
-   echo "SSH Parameters of Note: " >> $myoutfile
-   echo "--------------------------------" >> $myoutfile
-   echo "*** Note: Blank lines indicate the item is not configured" >> $myoutfile
-   echo "*** Note: # in front of the line means the item is not active" >> $myoutfile
-   echo " " >> $myoutfile
-   echo "Allowed Users:" >> $myoutfile
-   grep "AllowUsers" /etc/ssh/sshd_config >> $myoutfile
-   echo "Allowed Groups:" >> $myoutfile
-   grep "AllowGroups" /etc/ssh/sshd_config >> $myoutfile	
-   echo "Is Root Permitted to Login:" >> $myoutfile
-   grep "PermitRootLogin" /etc/ssh/sshd_config >> $myoutfile
-   echo "SSH Password Authentication: (no means certificates are in use)" >> $myoutfile
-   grep "PasswordAuthentication" /etc/ssh/sshd_config >> $myoutfile
-   echo "Does SSH Allow empty passwords:" >> $myoutfile
-   grep "PermitEmptyPasswords" /etc/ssh/sshd_config >> $myoutfile
-   echo "SSH Session Time Out Values:" >> $myoutfile
-   echo "Client Alive Interval:" >> $myoutfile
-   grep "ClientAliveInterval" /etc/ssh/sshd_config >> $myoutfile
-   echo "Client Alive Count:" >> $myoutfile
-   grep "ClientAliveCountMax" /etc/ssh/sshd_config >> $myoutfile
-   echo "SSH Port:" >> $myoutfile
-   grep "Port" /etc/ssh/sshd_config >> $myoutfile
-   echo "Address Family: (IPV4,IPV6, or Any)" >> $myoutfile
-   grep "AddressFamily" /etc/ssh/sshd_config >> $myoutfile
-   echo " " >> $myoutfile
-
    # Firewall Info
    echo "###################################" >> $myoutfile
-   echo "16 - Firewall Information" >> $myoutfile
+   echo "14 - Firewall Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
    echo "Checking for Firewalls..."
@@ -361,9 +317,53 @@ if [[ `which apt` ]]; then
        iptables -L >> $myoutfile
        echo " " >> $myoutfile
 
+   # SSH Info
+   echo "###################################" >> $myoutfile
+   echo "15 - SSH Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+
+   # Get SSH.config
+   echo "Getting SSH Config..."
+   echo "-----------------------------------" >> $myoutfile
+   echo "Contents of /etc/ssh/sshd_config:" >> $myoutfile
+   echo "-----------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   cat /etc/ssh/sshd_config >> $myoutfile
+   echo " " >> $myoutfile
+
+   # Get SSH Parameters of Note
+   echo "Getting SSH Parameters of Note..."
+   echo "--------------------------------" >> $myoutfile
+   echo "SSH Parameters of Note: " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "*** Note: Blank lines indicate the item is not configured" >> $myoutfile
+   echo "*** Note: # in front of the line means the item is not active" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Allowed Users:" >> $myoutfile
+   grep "AllowUsers" /etc/ssh/sshd_config >> $myoutfile
+   echo "Allowed Groups:" >> $myoutfile
+   grep "AllowGroups" /etc/ssh/sshd_config >> $myoutfile	
+   echo "Is Root Permitted to Login:" >> $myoutfile
+   grep "PermitRootLogin" /etc/ssh/sshd_config >> $myoutfile
+   echo "SSH Password Authentication: (no means certificates are in use)" >> $myoutfile
+   grep "PasswordAuthentication" /etc/ssh/sshd_config >> $myoutfile
+   echo "Does SSH Allow empty passwords:" >> $myoutfile
+   grep "PermitEmptyPasswords" /etc/ssh/sshd_config >> $myoutfile
+   echo "SSH Session Time Out Values:" >> $myoutfile
+   echo "Client Alive Interval:" >> $myoutfile
+   grep "ClientAliveInterval" /etc/ssh/sshd_config >> $myoutfile
+   echo "Client Alive Count:" >> $myoutfile
+   grep "ClientAliveCountMax" /etc/ssh/sshd_config >> $myoutfile
+   echo "SSH Port:" >> $myoutfile
+   grep "Port" /etc/ssh/sshd_config >> $myoutfile
+   echo "Address Family: (IPV4,IPV6, or Any)" >> $myoutfile
+   grep "AddressFamily" /etc/ssh/sshd_config >> $myoutfile
+   echo " " >> $myoutfile
+
    # Webserver Info
    echo "###################################" >> $myoutfile
-   echo "17 - Webserver Information" >> $myoutfile
+   echo "16 - Webserver Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo "*** This check looks for major web servers only (Apache2, NGNIX, lighttpd)" >> $myoutfile
    echo "*** Lesser known webservers will not be found by this check" >> $myoutfile
@@ -500,7 +500,7 @@ if [[ `which apt` ]]; then
 
    # SSL Info
    echo "###################################" >> $myoutfile
-   echo "18 - SSL Information" >> $myoutfile
+   echo "17 - SSL Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
    echo "Getting SSL Info..."
