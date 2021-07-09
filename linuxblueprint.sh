@@ -14,6 +14,7 @@
 # 1.  Host Name
 # 2.  Computer Information
 # 3.  Hardware Information
+#     Fstab
 # 4.  Banners
 # 5.  Host File
 # 6.  DNS IInformation
@@ -33,6 +34,11 @@
 # 20. Syslog Information
 # 21. Fail2Ban Information
 # 22. SNMP Information
+# 23. Disk Mount Information
+# 24. Network Information
+# 25. Kernal information
+# 26. Printer Information
+# 27. Local NFS information
 #
 # Usage: sudo ./linuxblueprint.sh
 #
@@ -101,22 +107,38 @@ if [[ `which apt` ]]; then
    # PUT DEBIAN CODE HERE
    #########################
 
-   # Write Section 1 Header
+   # Hostname Information
    echo "###################################" >> $myoutfile
    echo "1 - Host Name" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
+   echo "Checking Hostname..."
+   (uname -n) >>$myoutfile
+   echo " " >> $myoutfile
 
-   # Write Section 2 Header
+   # System Information
    echo "###################################" >> $myoutfile
    echo "2 - System Information " >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
+   echo "Checking OS info..."
+   echo "info from /etc/os-release.." >> $myoutfile
+   cat /etc/os-release | grep -E 'ID_LIKE|NAME|VERSION_ID' |grep -v 'PRETTY_NAME' >> $myoutfile
+   echo " " >> $myoutfile
 
-   # Write Section 3 Header
+   # Hardware Information
    echo "###################################" >> $myoutfile
    echo "3 - Hardware Information" >> $myoutfile
    echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   
+   # Fstab config information
+   echo "###################################" >> $myoutfile
+   echo "3 - Fstab config Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Fstab info..."
+   blkid >>$myoutfile
    echo " " >> $myoutfile
 
    # Banner Info
@@ -571,6 +593,19 @@ if [[ `which apt` ]]; then
     echo "Getting SELinux Config..."    
     cat /etc/selinux/config >> $myoutfile
     echo " " >> $myoutfile
+    
+    #SMB configuration information
+    echo "#################################################" >> $myoutfile
+    echo "Section 19  - samba configuration" >> $myoutfile
+    echo "#################################################" >> $myoutfile
+    echo "Checking samba Config..."
+    if [[ `which samba` ]]; then
+	echo "samba is installed" >> $myoutfile
+	sudo smbstatus >> $myoutfile
+    else 
+	echo "samba is not installed" >> $myoutfile
+    fi
+
 
     echo "#################################################" >> $myoutfile
     echo "Section 20  - syslog/rsyslog" >> $myoutfile
@@ -647,6 +682,49 @@ if [[ `which apt` ]]; then
       fi
     fi
 
+    #Disk Mount Information
+    echo "###################################" >> $myoutfile
+    echo "Section 24 - Disk Mount Information" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Checking Disk Mount info..."
+    sudo lsblk >>$myoutfile
+    echo " " >> $myoutfile
+    
+    #Network Information
+    echo "###################################" >> $myoutfile
+    echo "Section 25 - Network Adapter Information" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Checking NW Adapter info..."
+    sudo lshw -class network -short >>$myoutfile
+    echo " " >> $myoutfile
+  
+    # Kernal name system ,version, release, hardware Name
+    echo "###################################" >> $myoutfile
+    echo "Section 26 - Kernal Information" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Checking Kernal name and version info..."
+    uname -a >>$myoutfile
+    echo " " >> $myoutfile
+    
+    #Printer Information
+    echo "###################################" >> $myoutfile
+    echo "Section 27  - Printer Information" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+    sudo lpstat -s >>$myoutfile
+    echo " " >> $myoutfile
+    
+    echo "###################################" >> $myoutfile
+    echo "Section 28 - Local NFS Information" >> $myoutfile
+    echo "###################################" >> $myoutfile
+    echo " " >> $myoutfile
+    echo "Checking Local NFS Information..."
+    showmount -e >>$myoutfile 2>&1
+    echo " " >> $myoutfile
+    echo "Scan Complete"
    ########################
    # END DEBIAN CODE
    ########################
