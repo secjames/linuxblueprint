@@ -4,9 +4,7 @@ linuxblueprint.sh
 
 Authors: James McNabb, Eric Wold
 
-This script "blueprints" a linux system and gathers information for  
-system vetting needs and generates a report of in the current working
-directory. An overview of report secitons can be found below.
+This script "blueprints" a linux system and gathers information for system vetting needs and generates a report of in the current working directory. An overview of report secitons can be found below.
 
 Report Sections:
 1.  Host Name

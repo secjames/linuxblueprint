@@ -335,7 +335,22 @@ if [[ `which apt` ]]; then
 	echo "UfW is not installed" >> $myoutfile
 	echo " " >> $myoutfile
    fi
-     
+
+   echo "Checking for Firewalld..."
+   if [[ `which firewalld` ]]; then
+       #Check for firewalld
+       echo "firewalld is installed" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       echo "firewalld rules" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       firewall-cmd --list-all>> $myoutfile
+       echo " " >> $myoutfile
+
+   else
+   	echo "firewalld is not installed"
+	echo "firewalld is not installed" >> $myoutfile
+	echo " " >> $myoutfile
+   fi
        #Check for iptables 
        echo "Checking for iptables..."
        echo "--------------------------------" >> $myoutfile
