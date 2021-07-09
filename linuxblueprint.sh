@@ -194,6 +194,30 @@ if [[ `which apt` ]]; then
    cat /etc/resolv.conf >> $myoutfile
    echo " " >> $myoutfile
 
+   # User Information
+   echo "###################################" >> $myoutfile
+   echo "7 - User Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   cat /etc/passwd | cut -d ':' -f 1 >> $myoutfile
+   echo " " >> $myoutfile
+
+   # Groups Information
+   echo "###################################" >> $myoutfile
+   echo "8 - Groups Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   cat /etc/group | cut -d ':' -f 1 >> $myoutfile
+   echo " " >> $myoutfile
+
+   # Home Directories
+   echo "###################################" >> $myoutfile
+   echo "9 - Home Directories" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   dir /home >> $myoutfile
+   echo " " >> $myoutfile
+
    # Installed Packages
    echo "###################################" >> $myoutfile
    echo "Section 10 - Installed Packages" >> $myoutfile
@@ -558,6 +582,70 @@ if [[ `which apt` ]]; then
     cat /etc/rsyslog.conf >> $myoutfile
     cat /etc/syslog.conf >> $myoutfile
     echo " " >> $myoutfile
+
+    FILE=etc/fail2ban/jail.local
+    if test -f "$FILE"; then
+      echo "#################################################" >> $myoutfile
+      echo "21 - Fail2Ban Information" >> $myoutfile
+      echo "#################################################" >> $myoutfile
+      echo " " >> $myoutfile
+      cat etc/fail2ban/jail.local >> $myoutfile
+      echo " " >> $myoutfile
+    else
+      echo "Fail2ban not installed!" >> $myoutfile
+    fi
+
+    if test -f /etc/snmp/snmp.conf; then
+      if test -f /etc/snmp/snmpd.conf; then
+        echo "#################################################" >> $myoutfile
+        echo "22 - SNMP Information" >> $myoutfile
+        echo "#################################################" >> $myoutfile
+        echo " " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo "Contents of snmp.conf - " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo " " >> $myoutfile
+        cat /etc/snmp/snmp.conf >> $myoutfile
+        echo " " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo "Contents of snmpd.conf - " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo " " >> $myoutfile
+        cat /etc/snmp/snmpd.conf >> $myoutfile
+        echo " " >> $myoutfile
+      else
+        echo "#################################################" >> $myoutfile
+        echo "22 - SNMP Information" >> $myoutfile
+        echo "#################################################" >> $myoutfile
+        echo " " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo "snmp.conf located but not snmpd.conf. Contents - " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo " " >> $myoutfile
+        cat /etc/snmp/snmp.conf >> $myoutfile
+        echo " " >> $myoutfile
+      fi
+    else
+      if test -f /etc/snmp/snmpd.conf; then
+        echo "#################################################" >> $myoutfile
+        echo "22 - SNMP Information" >> $myoutfile
+        echo "#################################################" >> $myoutfile
+        echo " " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo "snmpd.conf located but not snmp.conf. Contents - " >> $myoutfile
+        echo "-------------------------------------------------" >> $myoutfile
+        echo " " >> $myoutfile
+        cat /etc/snmp/snmpd.conf >> $myoutfile
+        echo " " >> $myoutfile
+      else
+        echo "#################################################" >> $myoutfile
+        echo "22 - SNMP Information" >> $myoutfile
+        echo "#################################################" >> $myoutfile
+        echo " " >> $myoutfile
+        echo "Neither snmp.conf nor snmpd.conf was located. Are you sure SNMP is installed?" >> $myoutfile
+        echo " " >> $myoutfile
+      fi
+    fi
 
    ########################
    # END DEBIAN CODE
