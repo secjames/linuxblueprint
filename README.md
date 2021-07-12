@@ -2,13 +2,15 @@
 
 linuxblueprint.sh
 
-Authors: James McNabb, Eric Wold
+Authors: James McNabb, Eric Wold, Arsam Pathan, Dylan Chamberlain
 
 This script "blueprints" a linux system and gathers information for system vetting needs and generates a report of in the current working directory. An overview of report secitons can be found below.
 
+NOTE: Currently works on Debian bases distributions only.  Red Hat based systems will be added in the future.
+
 Report Sections:
 1.  Host Name
-2.  Computer Information
+2.  System Information
 3.  Hardware Information
 4.  Banners
 5.  Host File
@@ -29,6 +31,9 @@ Report Sections:
 20. Syslog Information
 21. Fail2Ban Information
 22. SNMP Information
+23. Printer Information
+24. Local NFS information
+
 
 Usage: sudo ./linuxblueprint.sh
 

@@ -2,7 +2,7 @@
 
 ##################################################################################
 # linuxblueprint.sh
-# Authors: James McNabb, Eric Wold
+# Authors: James McNabb, Eric Wold, Arsam Pathan, Dylan Chamberlain
 # 
 #
 # This script "blueprints" a linux system and gathers information for  
@@ -12,9 +12,8 @@
 #
 # Report Sections:
 # 1.  Host Name
-# 2.  Computer Information
+# 2.  System Information
 # 3.  Hardware Information
-#     Fstab
 # 4.  Banners
 # 5.  Host File
 # 6.  DNS IInformation
@@ -34,11 +33,8 @@
 # 20. Syslog Information
 # 21. Fail2Ban Information
 # 22. SNMP Information
-# 23. Disk Mount Information
-# 24. Network Information
-# 25. Kernal information
-# 26. Printer Information
-# 27. Local NFS information
+# 23. Printer Information
+# 24. Local NFS information
 #
 # Usage: sudo ./linuxblueprint.sh
 #
@@ -54,7 +50,6 @@ mydate=`date +"%Y%m%d%H%M%S"`
 myoutfile="$mydate-$HOSTNAME-Blueprint.txt"
 
 # Write file header
-
 echo " " >> $myoutfile
 echo "   __    _                  ____  __                      _       __ " >> $myoutfile
 echo "  / /   (_)___  __  ___  __/ __ )/ /_  _____  ____  _____(_)___  / /_" >> $myoutfile
@@ -91,6 +86,8 @@ echo  "19. App Armor/SeLinux Informaiton" >> $myoutfile
 echo  "20. Syslog Information" >> $myoutfile
 echo  "21. Fail2Ban Information" >> $myoutfile
 echo  "22. SNMP Information" >> $myoutfile
+echo  "23. Printer Information" >> $myoutfile
+echo  "24. Local NFS information" >> $myoutifle
 echo " " >> $myoutfile
 
 #### Main ####
@@ -107,7 +104,7 @@ if [[ `which apt` ]]; then
    # PUT DEBIAN CODE HERE
    #########################
 
-   # Hostname Information
+   # Hostname
    echo "###################################" >> $myoutfile
    echo "1 - Host Name" >> $myoutfile
    echo "###################################" >> $myoutfile
@@ -121,9 +118,61 @@ if [[ `which apt` ]]; then
    echo "2 - System Information " >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "OS Release" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
    echo "Checking OS info..."
    echo "info from /etc/os-release.." >> $myoutfile
    cat /etc/os-release | grep -E 'ID_LIKE|NAME|VERSION_ID' |grep -v 'PRETTY_NAME' >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Kernal Information" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   # Kernal name system ,version, release, hardware Name
+   echo " " >> $myoutfile
+   echo "Checking Kernal name and version info..."
+   uname -a >> $myoutfile
+   echo " " >> $myoutfile
+   #Disk Information   
+   echo "--------------------------------" >> $myoutfile
+   echo "Disk Information" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Disk Mount info..."
+   lsblk >> $myoutfile
+   echo " " >> $myoutfile
+   #Disk Space  
+   echo "--------------------------------" >> $myoutfile
+   echo "Disk Space" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Disk Space..."
+   df -H  >> $myoutfile
+   echo " " >> $myoutfile
+   # Mounted disks
+   echo "--------------------------------" >> $myoutfile
+   echo "Mounted Disks" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Disk Mountes..."
+   mount | column -t >> $myoutfile
+   echo " " >> $myoutfile
+   # Fstab config information
+   echo "--------------------------------" >> $myoutfile
+   echo "Fstab" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Fstab info..."
+   blkid >> $myoutfile
+   echo " " >> $myoutfile
+   #Network Information
+   echo "--------------------------------" >> $myoutfile
+   echo "Network Information" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking NW Adapter info..."
+   #sudo lshw -class network -short >> $myoutfile
+   ip a >> $myoutfile
    echo " " >> $myoutfile
 
    # Hardware Information
@@ -131,14 +180,40 @@ if [[ `which apt` ]]; then
    echo "3 - Hardware Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
-   
-   # Fstab config information
-   echo "###################################" >> $myoutfile
-   echo "3 - Fstab config Information" >> $myoutfile
-   echo "###################################" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "CPU - lscpu" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   lscpu >> $myoutfile
    echo " " >> $myoutfile
-   echo "Checking Fstab info..."
-   blkid >>$myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Memory" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   free -m >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Hardware List - lshw" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   lshw -short >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Hardware Info - hwinfo" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   hwinfo -short >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "List PCI - lspci" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   lspci >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "List SCSI - lsscsi" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   lsscsi >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "List USB - lsusb" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   lsusb >> $myoutfile
    echo " " >> $myoutfile
 
    # Banner Info
@@ -190,6 +265,20 @@ if [[ `which apt` ]]; then
    fi
    echo " " >> $myoutfile
 
+   # Check /etc/motd
+   if [ -f /etc/ssh/ssh_banner ]; then
+       echo "/etc/ssh/ssh_banner exists"
+       # Get /etc/ssh/ssh_banner
+       echo "--------------------------------" >> $myoutfile
+       echo "Contents of /etc/ssh/ssh_banner:" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       cat /etc/ssh/ssh_banner>> $myoutfile
+   else 
+      echo "/etc/ssh/ssh_banner does not exist"
+      echo "/etc/ssh/ssh_banner does not exist" >> $myoutfile
+   fi
+   echo " " >> $myoutfile
+
    # Host File Info
    echo "###################################" >> $myoutfile
    echo "5 Host File Information" >> $myoutfile
@@ -226,10 +315,15 @@ if [[ `which apt` ]]; then
 
    # Groups Information
    echo "###################################" >> $myoutfile
-   echo "8 - Groups Information" >> $myoutfile
+   echo "8 - Groups & Users in them" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
-   cat /etc/group | cut -d ':' -f 1 >> $myoutfile
+   echo "Getting Groups Info..."
+   echo "-----------------------------------" >> $myoutfile
+   echo "Contents of /etc/group:" >> $myoutfile
+   echo "-----------------------------------" >> $myoutfile
+   #cat /etc/group | cut -d ':' -f 1 >> $myoutfile
+   cat /etc/group >> $myoutfile
    echo " " >> $myoutfile
 
    # Home Directories
@@ -405,6 +499,8 @@ if [[ `which apt` ]]; then
    grep "Port" /etc/ssh/sshd_config >> $myoutfile
    echo "Address Family: (IPV4,IPV6, or Any)" >> $myoutfile
    grep "AddressFamily" /etc/ssh/sshd_config >> $myoutfile
+   echo "Banner" >> $myoutfile
+   grep "Banner" /etc/ssh/sshd_config >> $myoutfile
    echo " " >> $myoutfile
 
    # Webserver Info
@@ -554,177 +650,178 @@ if [[ `which apt` ]]; then
    echo "Listing of /etc/ssl:" >> $myoutfile
    echo "--------------------------------" >> $myoutfile
    ls -R /etc/ssl >> $myoutfile
-	
-    echo "#################################################" >> $myoutfile
-    echo "Section 19 - App Armor, SELinux" >> $myoutfile
-    echo "#################################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "AppArmor " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "Getting App Armor Status..."
-    aa-status >> $myoutfile
-    echo " " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "AppArmor Configuration" >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "Getting App Armor Configuration..."
-    cat /sys/kernel/security/apparmor/profiles >> $myoutfile
-    echo " " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "SELinux " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "Key:" >> $myoutfile
-    echo "Enforced: Actions contrary to the policy are blocked and the corresponding event is logged in the audit file" >> $myoutfile
-    echo "Permissive: SeLinux software is loaded but rules are not enforced, only logging is performed" >> $myoutfile
-    echo "Disabled: The SELinux system is disabled entirely" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "If there is no text below the commands getenforce and sestatus were run and did not find SELinux installed." >> $myoutfile
-    echo "SE Linux may be installed by running sudo apt install selinux-utils" >> $myoutfile
-    echo "Getting SELinux Status..."
-    echo " " >> $myoutfile
-    getenforce >> $myoutfile
-    echo " " >> $myoutfile 
-    sestatus >> $myoutfile
-    echo " " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "SELinux Configuration (if installed)" >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "Getting SELinux Config..."    
-    cat /etc/selinux/config >> $myoutfile
-    echo " " >> $myoutfile
+
+   # Security Software	
+   echo "#################################################" >> $myoutfile
+   echo "Section 19 - App Armor, SELinux" >> $myoutfile
+   echo "#################################################" >> $myoutfile
+   echo " " >> $myoutfile
+   # App Armor
+   echo "--------------------------------" >> $myoutfile
+   echo "AppArmor " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Getting App Armor Status..."
+   aa-status >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "AppArmor Configuration" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Getting App Armor Configuration..."
+   cat /sys/kernel/security/apparmor/profiles >> $myoutfile
+   echo " " >> $myoutfile
+   # SELinux
+   echo "--------------------------------" >> $myoutfile
+   echo "SELinux " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Key:" >> $myoutfile
+   echo "Enforced: Actions contrary to the policy are blocked and the corresponding event is logged in the audit file" >> $myoutfile
+   echo "Permissive: SeLinux software is loaded but rules are not enforced, only logging is performed" >> $myoutfile
+   echo "Disabled: The SELinux system is disabled entirely" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "If there is no text below the commands getenforce and sestatus were run and did not find SELinux installed." >> $myoutfile
+   echo "SE Linux may be installed by running sudo apt install selinux-utils" >> $myoutfile
+   echo "Getting SELinux Status..."
+   echo " " >> $myoutfile
+   getenforce >> $myoutfile
+   echo " " >> $myoutfile 
+   sestatus >> $myoutfile
+   echo " " >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "SELinux Configuration (if installed)" >> $myoutfile
+   echo "--------------------------------" >> $myoutfile
+   echo "Getting SELinux Config..."    
+   cat /etc/selinux/config >> $myoutfile
+   echo " " >> $myoutfile
     
-    #SMB configuration information
-    echo "#################################################" >> $myoutfile
-    echo "Section 19  - samba configuration" >> $myoutfile
-    echo "#################################################" >> $myoutfile
-    echo "Checking samba Config..."
-    if [[ `which samba` ]]; then
-	echo "samba is installed" >> $myoutfile
-	sudo smbstatus >> $myoutfile
-    else 
-	echo "samba is not installed" >> $myoutfile
-    fi
+   #SMB configuration information
+   echo "#################################################" >> $myoutfile
+   echo "Section 19  - Samba Configuration" >> $myoutfile
+   echo "#################################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking samba Config..."
+   if [[ `which samba` ]]; then
+       echo "samba is installed" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       echo "SMB Status:" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       smbstatus >> $myoutfile
+       echo " " >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       echo "Contents of /etc/samba/smb.conf:" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       cat /etc/samba/smb.conf >> $myoutfile
+       echo " " >> $myoutfile
+
+   else 
+        echo "samba is not installed" >> $myoutfile
+	echo " " >> $myoutfile
+   fi
+
+   #Syslog Info
+   echo "#################################################" >> $myoutfile
+   echo "Section 20  - syslog/rsyslog" >> $myoutfile
+   echo "#################################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Getting Syslog Info..."
+   echo "--------------------------------" >> $myoutfile
+   echo "Syslog/RSyslog Configuration" >> $myoutfile 
+   echo "--------------------------------" >> $myoutfile
+   cat /etc/rsyslog.conf >> $myoutfile
+   cat /etc/syslog.conf >> $myoutfile
+   echo " " >> $myoutfile
+
+   #Fail2Ban Info
+     echo "#################################################" >> $myoutfile
+     echo "21 - Fail2Ban Information" >> $myoutfile
+     echo "#################################################" >> $myoutfile
+       echo " " >> $myoutfile
+     echo "Checking Fail2Ban...."
+   if test -f /etc/fail2ban/jail.local; then
+     echo " " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo "fail2ban config - " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+     cat etc/fail2ban/jail.local >> $myoutfile
+     echo " " >> $myoutfile
+   else
+     echo "Fail2ban not installed!" >> $myoutfile
+   fi
+   echo " " >> $myoutfile
+
+   # SNMP Information
+   if test -f /etc/snmp/snmp.conf; then
+     if test -f /etc/snmp/snmpd.conf; then
+       echo "#################################################" >> $myoutfile
+       echo "22 - SNMP Information" >> $myoutfile
+       echo "#################################################" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "Checking SNMP...."
+       echo "-------------------------------------------------" >> $myoutfile
+       echo "Contents of snmp.conf - " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo " " >> $myoutfile
+       cat /etc/snmp/snmp.conf >> $myoutfile
+       echo " " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo "Contents of snmpd.conf - " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo " " >> $myoutfile
+       cat /etc/snmp/snmpd.conf >> $myoutfile
+       echo " " >> $myoutfile
+     else
+       echo "#################################################" >> $myoutfile
+       echo "22 - SNMP Information" >> $myoutfile
+       echo "#################################################" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo "snmp.conf located but not snmpd.conf. Contents - " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo " " >> $myoutfile
+       cat /etc/snmp/snmp.conf >> $myoutfile
+       echo " " >> $myoutfile
+     fi
+   else
+     if test -f /etc/snmp/snmpd.conf; then
+       echo "#################################################" >> $myoutfile
+       echo "22 - SNMP Information" >> $myoutfile
+       echo "#################################################" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo "snmpd.conf located but not snmp.conf. Contents - " >> $myoutfile
+       echo "-------------------------------------------------" >> $myoutfile
+       echo " " >> $myoutfile
+       cat /etc/snmp/snmpd.conf >> $myoutfile
+       echo " " >> $myoutfile
+     else
+       echo "#################################################" >> $myoutfile
+       echo "22 - SNMP Information" >> $myoutfile
+       echo "#################################################" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "Neither snmp.conf nor snmpd.conf was located. Are you sure SNMP is installed?" >> $myoutfile
+       echo " " >> $myoutfile
+     fi
+   fi  
+
+   #Printer Information
+   echo "###################################" >> $myoutfile
+   echo "Section 23  - Printer Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking for Printers... "
+   sudo lpstat -s >>$myoutfile
+   echo " " >> $myoutfile
+
+   #NFS Informaiton
+   echo "###################################" >> $myoutfile
+   echo "Section 28 - Local NFS Information" >> $myoutfile
+   echo "###################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking Local NFS Information..."
+   showmount -e >>$myoutfile 2>&1
+   echo " " >> $myoutfile
 
 
-    echo "#################################################" >> $myoutfile
-    echo "Section 20  - syslog/rsyslog" >> $myoutfile
-    echo "#################################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "--------------------------------" >> $myoutfile
-    echo "Syslog/RSyslog Configuration" >> $myoutfile 
-    echo "--------------------------------" >> $myoutfile
-    cat /etc/rsyslog.conf >> $myoutfile
-    cat /etc/syslog.conf >> $myoutfile
-    echo " " >> $myoutfile
-
-    FILE=etc/fail2ban/jail.local
-    if test -f "$FILE"; then
-      echo "#################################################" >> $myoutfile
-      echo "21 - Fail2Ban Information" >> $myoutfile
-      echo "#################################################" >> $myoutfile
-      echo " " >> $myoutfile
-      cat etc/fail2ban/jail.local >> $myoutfile
-      echo " " >> $myoutfile
-    else
-      echo "Fail2ban not installed!" >> $myoutfile
-    fi
-
-    if test -f /etc/snmp/snmp.conf; then
-      if test -f /etc/snmp/snmpd.conf; then
-        echo "#################################################" >> $myoutfile
-        echo "22 - SNMP Information" >> $myoutfile
-        echo "#################################################" >> $myoutfile
-        echo " " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo "Contents of snmp.conf - " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo " " >> $myoutfile
-        cat /etc/snmp/snmp.conf >> $myoutfile
-        echo " " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo "Contents of snmpd.conf - " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo " " >> $myoutfile
-        cat /etc/snmp/snmpd.conf >> $myoutfile
-        echo " " >> $myoutfile
-      else
-        echo "#################################################" >> $myoutfile
-        echo "22 - SNMP Information" >> $myoutfile
-        echo "#################################################" >> $myoutfile
-        echo " " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo "snmp.conf located but not snmpd.conf. Contents - " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo " " >> $myoutfile
-        cat /etc/snmp/snmp.conf >> $myoutfile
-        echo " " >> $myoutfile
-      fi
-    else
-      if test -f /etc/snmp/snmpd.conf; then
-        echo "#################################################" >> $myoutfile
-        echo "22 - SNMP Information" >> $myoutfile
-        echo "#################################################" >> $myoutfile
-        echo " " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo "snmpd.conf located but not snmp.conf. Contents - " >> $myoutfile
-        echo "-------------------------------------------------" >> $myoutfile
-        echo " " >> $myoutfile
-        cat /etc/snmp/snmpd.conf >> $myoutfile
-        echo " " >> $myoutfile
-      else
-        echo "#################################################" >> $myoutfile
-        echo "22 - SNMP Information" >> $myoutfile
-        echo "#################################################" >> $myoutfile
-        echo " " >> $myoutfile
-        echo "Neither snmp.conf nor snmpd.conf was located. Are you sure SNMP is installed?" >> $myoutfile
-        echo " " >> $myoutfile
-      fi
-    fi
-
-    #Disk Mount Information
-    echo "###################################" >> $myoutfile
-    echo "Section 24 - Disk Mount Information" >> $myoutfile
-    echo "###################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "Checking Disk Mount info..."
-    sudo lsblk >>$myoutfile
-    echo " " >> $myoutfile
-    
-    #Network Information
-    echo "###################################" >> $myoutfile
-    echo "Section 25 - Network Adapter Information" >> $myoutfile
-    echo "###################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "Checking NW Adapter info..."
-    sudo lshw -class network -short >>$myoutfile
-    echo " " >> $myoutfile
-  
-    # Kernal name system ,version, release, hardware Name
-    echo "###################################" >> $myoutfile
-    echo "Section 26 - Kernal Information" >> $myoutfile
-    echo "###################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "Checking Kernal name and version info..."
-    uname -a >>$myoutfile
-    echo " " >> $myoutfile
-    
-    #Printer Information
-    echo "###################################" >> $myoutfile
-    echo "Section 27  - Printer Information" >> $myoutfile
-    echo "###################################" >> $myoutfile
-    echo " " >> $myoutfile
-    sudo lpstat -s >>$myoutfile
-    echo " " >> $myoutfile
-    
-    echo "###################################" >> $myoutfile
-    echo "Section 28 - Local NFS Information" >> $myoutfile
-    echo "###################################" >> $myoutfile
-    echo " " >> $myoutfile
-    echo "Checking Local NFS Information..."
-    showmount -e >>$myoutfile 2>&1
-    echo " " >> $myoutfile
-    echo "Scan Complete"
    ########################
    # END DEBIAN CODE
    ########################
