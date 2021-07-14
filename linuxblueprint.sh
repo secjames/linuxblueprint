@@ -649,7 +649,7 @@ if [[ `which apt` ]]; then
    echo "--------------------------------" >> $myoutfile
    echo "Listing of /etc/ssl:" >> $myoutfile
    echo "--------------------------------" >> $myoutfile
-   ls -R /etc/ssl >> $myoutfile
+   ls -LR /etc/ssl >> $myoutfile
 
    #SMB configuration information
    echo "#################################################" >> $myoutfile
