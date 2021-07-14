@@ -814,7 +814,7 @@ if [[ `which apt` ]]; then
 
    #NFS Informaiton
    echo "###################################" >> $myoutfile
-   echo "Section 28 - Local NFS Information" >> $myoutfile
+   echo "Section 24 - Local NFS Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
    echo "Checking Local NFS Information..."
