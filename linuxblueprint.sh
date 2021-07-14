@@ -651,6 +651,31 @@ if [[ `which apt` ]]; then
    echo "--------------------------------" >> $myoutfile
    ls -R /etc/ssl >> $myoutfile
 
+   #SMB configuration information
+   echo "#################################################" >> $myoutfile
+   echo "Section 18  - Samba Configuration" >> $myoutfile
+   echo "#################################################" >> $myoutfile
+   echo " " >> $myoutfile
+   echo "Checking samba Config..."
+   if [[ `which samba` ]]; then
+       echo "samba is installed" >> $myoutfile
+       echo " " >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       echo "SMB Status:" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       smbstatus >> $myoutfile
+       echo " " >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       echo "Contents of /etc/samba/smb.conf:" >> $myoutfile
+       echo "--------------------------------" >> $myoutfile
+       cat /etc/samba/smb.conf >> $myoutfile
+       echo " " >> $myoutfile
+
+   else 
+        echo "samba is not installed" >> $myoutfile
+	echo " " >> $myoutfile
+   fi
+
    # Security Software	
    echo "#################################################" >> $myoutfile
    echo "Section 19 - App Armor, SELinux" >> $myoutfile
@@ -692,31 +717,6 @@ if [[ `which apt` ]]; then
    echo "Getting SELinux Config..."    
    cat /etc/selinux/config >> $myoutfile
    echo " " >> $myoutfile
-    
-   #SMB configuration information
-   echo "#################################################" >> $myoutfile
-   echo "Section 19  - Samba Configuration" >> $myoutfile
-   echo "#################################################" >> $myoutfile
-   echo " " >> $myoutfile
-   echo "Checking samba Config..."
-   if [[ `which samba` ]]; then
-       echo "samba is installed" >> $myoutfile
-       echo " " >> $myoutfile
-       echo "--------------------------------" >> $myoutfile
-       echo "SMB Status:" >> $myoutfile
-       echo "--------------------------------" >> $myoutfile
-       smbstatus >> $myoutfile
-       echo " " >> $myoutfile
-       echo "--------------------------------" >> $myoutfile
-       echo "Contents of /etc/samba/smb.conf:" >> $myoutfile
-       echo "--------------------------------" >> $myoutfile
-       cat /etc/samba/smb.conf >> $myoutfile
-       echo " " >> $myoutfile
-
-   else 
-        echo "samba is not installed" >> $myoutfile
-	echo " " >> $myoutfile
-   fi
 
    #Syslog Info
    echo "#################################################" >> $myoutfile
