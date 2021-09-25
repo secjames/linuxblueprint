@@ -649,7 +649,7 @@ if [[ `which apt` ]]; then
    echo "--------------------------------" >> $myoutfile
    echo "Listing of /etc/ssl:" >> $myoutfile
    echo "--------------------------------" >> $myoutfile
-   ls -R /etc/ssl >> $myoutfile
+   ls -LR /etc/ssl >> $myoutfile
 
    #SMB configuration information
    echo "#################################################" >> $myoutfile
@@ -814,7 +814,7 @@ if [[ `which apt` ]]; then
 
    #NFS Informaiton
    echo "###################################" >> $myoutfile
-   echo "Section 28 - Local NFS Information" >> $myoutfile
+   echo "Section 24 - Local NFS Information" >> $myoutfile
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
    echo "Checking Local NFS Information..."
