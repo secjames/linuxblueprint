@@ -6,7 +6,7 @@ Authors: James McNabb, Eric Wold, Arsam Pathan, Dylan Chamberlain
 
 This script "blueprints" a linux system and gathers information for system vetting needs and generates a report of in the current working directory. An overview of report secitons can be found below.
 
-NOTE: Currently works on Debian bases distributions only.  Red Hat based systems will be added in the future.
+NOTE: Currently works on Debian and Red Hat based distributions only.
 
 Report Sections:
 1.  Host Name

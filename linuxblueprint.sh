@@ -516,7 +516,7 @@ if [[ `which apt` ]]; then
    echo "Checking for Apache2..."
    if [[ `which apache2` ]]; then
        #Check for Apache
-       echo "*** Apache2 is installed" >> $myoutfile
+       echo "Apache2 is installed" >> $myoutfile
        echo "Apache2 is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -586,7 +586,7 @@ if [[ `which apt` ]]; then
    echo "Checking for Nginx..."
    if [[ `which nginx` ]]; then
        #Check for Nginx
-       echo "*** Nginx is installed" >> $myoutfile
+       echo "Nginx is installed" >> $myoutfile
        echo "Nginx is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -613,7 +613,7 @@ if [[ `which apt` ]]; then
        echo " " >> $myoutfile
    else
    	echo "Nginx is not installed"
-	echo "*** Nginx is not installed" >> $myoutfile
+	echo "Nginx is not installed" >> $myoutfile
 	echo " " >> $myoutfile
    fi
 
@@ -621,7 +621,7 @@ if [[ `which apt` ]]; then
    echo "Checking for Lighttp..."
    if [[ `which lighttpd` ]]; then
        #Check for lighttpd
-       echo "*** Lighttpd is installed" >> $myoutfile
+       echo "Lighttpd is installed" >> $myoutfile
        echo "Lighttpd is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -831,7 +831,7 @@ elif [[ `which yum` ]]; then
    IS_RHEL=1
    echo "RedHat Based OS..."
 
-   ########################
+   #########################
    # PUT Red HAT CODE HERE
    #########################
 
@@ -1071,16 +1071,16 @@ elif [[ `which yum` ]]; then
    echo "###################################" >> $myoutfile
    echo " " >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
-   echo "Listing Packages from APT" >> $myoutfile
+   echo "Listing Packages from YUM" >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
-   echo "Getting Installed Packages from APT..."
-   apt list --installed >> $myoutfile
+   echo "Getting Installed Packages from YUM..."
+   sudo yum list --installed >> $myoutfile
    echo " " >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
-   echo "Listing Packages from dpkg" >> $myoutfile
+   echo "Listing Packages from DNF" >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
-   echo "Getting Installed Packages from dpkg..."
-   dpkg-query -l | less >> $myoutfile
+   echo "Getting Installed Packages from DNF..."
+   dnf list installed >> $myoutfile
    echo " " >> $myoutfile
 
    # Services Info
@@ -1092,12 +1092,12 @@ elif [[ `which yum` ]]; then
    echo "Services" >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
    echo "Services Legend:" >> $myoutfile
-   echo "+: the service is running" >> $myoutfile
-   echo "-: the service is NOT running" >> $myoutfile 
-   echo "?: the service state cannot be determined" >> $myoutfile
+   echo "Enabled: the service is explicitly installed" >> $myoutfile
+   echo "Disabled: the service is NOT installed" >> $myoutfile 
+   echo "Static: the service is installed as a dependency" >> $myoutfile
    echo " " >> $myoutfile
    echo "Getting Services Info..."
-   service --status-all >> $myoutfile
+   systemctl list-unit-files >> $myoutfile
    echo " " >> $myoutfile
 
    # Open Ports
@@ -1108,10 +1108,11 @@ elif [[ `which yum` ]]; then
    echo "-----------------------------------" >> $myoutfile
    echo "Open Ports" >> $myoutfile
    echo "-----------------------------------" >> $myoutfile
-   echo "Getting Open Ports..."
-   ss -ltnp >> $myoutfile
-   # netstat –tuln >> $myoutfile
-   echo " " >> $myoutfile
+   echo "Getting Open Ports using lsof"
+   sudo lsof -i -P -n | grep LISTEN >> $myoutfile
+   echo "Getting Open Ports using NetStat"
+   netstat –tuln >> $myoutfile
+   echo " " >> $myoutfile 
 
    # Cron Info
    echo "###################################" >> $myoutfile
@@ -1247,7 +1248,7 @@ elif [[ `which yum` ]]; then
    echo "Checking for Apache2..."
    if [[ `which apache2` ]]; then
        #Check for Apache
-       echo "*** Apache2 is installed" >> $myoutfile
+       echo "Apache2 is installed" >> $myoutfile
        echo "Apache2 is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -1317,7 +1318,7 @@ elif [[ `which yum` ]]; then
    echo "Checking for Nginx..."
    if [[ `which nginx` ]]; then
        #Check for Nginx
-       echo "*** Nginx is installed" >> $myoutfile
+       echo "Nginx is installed" >> $myoutfile
        echo "Nginx is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -1344,7 +1345,7 @@ elif [[ `which yum` ]]; then
        echo " " >> $myoutfile
    else
    	echo "Nginx is not installed"
-	echo "*** Nginx is not installed" >> $myoutfile
+	echo "Nginx is not installed" >> $myoutfile
 	echo " " >> $myoutfile
    fi
 
@@ -1352,7 +1353,7 @@ elif [[ `which yum` ]]; then
    echo "Checking for Lighttp..."
    if [[ `which lighttpd` ]]; then
        #Check for lighttpd
-       echo "*** Lighttpd is installed" >> $myoutfile
+       echo "Lighttpd is installed" >> $myoutfile
        echo "Lighttpd is installed"
        echo " " >> $myoutfile
        echo "--------------------------------" >> $myoutfile
@@ -1411,6 +1412,7 @@ elif [[ `which yum` ]]; then
    echo "#################################################" >> $myoutfile
    echo "Section 19 - App Armor, SELinux" >> $myoutfile
    echo "#################################################" >> $myoutfile
+   echo "Blank Sections mean the softare is not installed or configured" >> $myoutfile
    echo " " >> $myoutfile
    # App Armor
    echo "--------------------------------" >> $myoutfile
@@ -1529,7 +1531,7 @@ elif [[ `which yum` ]]; then
        echo "22 - SNMP Information" >> $myoutfile
        echo "#################################################" >> $myoutfile
        echo " " >> $myoutfile
-       echo "Neither snmp.conf nor snmpd.conf was located. Are you sure SNMP is installed?" >> $myoutfile
+       echo "Neither snmp.conf nor snmpd.conf was located." >> $myoutfile
        echo " " >> $myoutfile
      fi
    fi  
@@ -1557,7 +1559,6 @@ elif [[ `which yum` ]]; then
    # END Red HAT CODE
    ########################
 
-   echo "THE CURRENT VERSION OF LINUX IS UNSUPPORTED BY THIS TOOL"
 
 elif [[ `which apk` ]]; then
     #Alpine Based Commands go Here
