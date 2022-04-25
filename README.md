@@ -4,7 +4,7 @@ linuxblueprint.sh
 
 Authors: James McNabb, Eric Wold, Arsam Pathan, Dylan Chamberlain
 
-This script "blueprints" a linux system and gathers information for system vetting needs and generates a report of in the current working directory. An overview of report secitons can be found below.
+This script "blueprints" a linux system and gathers information for system vetting needs and generates a report of the current working directory. An overview of report secitons can be found below.
 
 NOTE: Currently works on Debian and Red Hat based distributions only.
 
@@ -14,7 +14,7 @@ Report Sections:
 3.  Hardware Information
 4.  Banners
 5.  Host File
-6.  DNS IInformation
+6.  DNS Information
 7.  User Information
 8.  Goups Information
 9.  Home Directories
@@ -33,7 +33,6 @@ Report Sections:
 22. SNMP Information
 23. Printer Information
 24. Local NFS information
-
 
 Usage: sudo ./linuxblueprint.sh
 
